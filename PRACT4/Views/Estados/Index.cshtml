@@ -4,6 +4,13 @@
 	ViewBag.Title = "Lista de estados";
 }
 
+@if (TempData["Message"] is not null)
+{
+    <div class="alert alert-@TempData["MessageType"] alert-dismissible fade show" role="alert">
+        @TempData["Message"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
 
 <div class="card">
 
@@ -37,16 +44,28 @@
                             <td>@Html.DisplayFor(modelItem => item.Name)</td>
                             <td>@Html.DisplayFor(modelItem => item.Descripcion)</td>
                             <td class="m-auto">
-                                <div style="width:30px; height:30px; border:1px solid #c0c0c0; border-radius:5px;"
-                                     style="background-color: @(item.Color)">
+                                <div style="width:30px; height:30px; border:1px solid #c0c0c0; border-radius:5px; background-color:@(item.Color);">
                                 </div>
+
                             </td>
                             <td>@Html.DisplayFor(modelItem => item.CreatedAt)</td>
                             <td>@Html.DisplayFor(modelItem => item.UpdatedAt)</td>
                             <td>
-                                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary">Editar</a>
-                                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info">Detalles</a>
-                                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Eliminar</a>
+                                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary">
+                                    Editar
+                                </a>
+                                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info">
+                                    Detalles
+                                </a>
+                                
+                                <button
+                                    type="button"
+                                    class="btn btn-danger"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#deleteModal"
+                                    data-ng-hide="@item.Id">
+                                    Eliminar
+                                </button>
                             </td>
                         </tr>
                     }
@@ -61,3 +80,37 @@
         </table>
     </div>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Modal title</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                ¿Estas seguro de eliminar este estado?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <form id="form-delete" method="post">
+                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            $('#deleteModal').on('show.bs.modal', function(event) {
+                const button = $(event.relatedTarget); //que activo el modal
+                const id = button.data('id'); //extraer la data-id
+
+                $("#form-delete").attr('action', '/Estados/Delete/${id}');
+            });
+        });
+    </script>
+}

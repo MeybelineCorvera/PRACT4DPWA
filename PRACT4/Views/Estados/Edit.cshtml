@@ -1,7 +1,7 @@
 ﻿@model PRACT4.Models.Estado
 
 @{
-    ViewBag.Title = "Crear estados";
+    ViewBag.Title = "Editar estados";
 }
 
 @if (TempData["Message"] is not null)
@@ -12,13 +12,13 @@
     </div>
 }
 
-<form asp-action="Create">
+<form asp-action="Edit">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="card">
 
         <div class="card-header">
             <span class="card-title fs-5">
-                Crear Estados
+                Editar Estados
             </span>
         </div>
 
@@ -28,7 +28,7 @@
 
                     <div class="form-group">
                         <label asp-for="Name" class="control-label"></label>
-                        <input asp-for="Name" class="form-control"/>
+                        <input asp-for="Name" class="form-control" />
                         <span asp-validation-for="Name" class="text-danger"></span>>
                     </div>
 
@@ -40,7 +40,7 @@
 
                     <div class="form-group">
                         <label asp-for="Color" class="control-label"></label>
-                        <input asp-for="Color" class="form-control" type="color"/>
+                        <input asp-for="Color" class="form-control" type="color" />
                         <span asp-validation-for="Color" class="text-danger"></span>>
                     </div>
                 </div>
