@@ -28,7 +28,7 @@ namespace PRACT4.Models
         [ForeignKey("EstadoId")]
         public int EstadoId { get; set; }
 
-        public  List <Estado>? Estado{ get; set; }
+        public  Estado? Estado{ get; set; }
 
         [Display(Name = "Creado en")]
         public DateTime CreatedAt { get; set; }

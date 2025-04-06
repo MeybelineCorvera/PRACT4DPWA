@@ -1,7 +1,7 @@
-﻿@model IEnumerable<PRACT4.Models.Estado>
+﻿@model IEnumerable<PRACT4.Models.Evento>
 
 @{
-    ViewBag.Title = "Lista de estados";
+    ViewBag.Title = "Lista de eventos";
 }
 
 @if (TempData["Message"] is not null)
@@ -16,7 +16,7 @@
 
     <div class="card-header">
         <span class="card-title fs-5">
-            Lista de Estados
+            Lista de Eventos
         </span>
 
         <a asp-action="Create" class="btn btn float-end">
@@ -27,9 +27,11 @@
         <table class="table table-bordered table-striped table-hover">
             <thead>
                 <tr>
-                    <th>@Html.DisplayNameFor(model => model.Name)</th>
+                    <th>@Html.DisplayNameFor(model => model.Title)</th>
                     <th>@Html.DisplayNameFor(model => model.Descripcion)</th>
-                    <th>@Html.DisplayNameFor(model => model.Color)</th>
+                    <th>@Html.DisplayNameFor(model => model!.EstadoId)</th>
+                    <th>@Html.DisplayNameFor(model => model.StartDate)</th>
+                    <th>@Html.DisplayNameFor(model => model.EndDate)</th>
                     <th>@Html.DisplayNameFor(model => model.CreatedAt)</th>
                     <th>@Html.DisplayNameFor(model => model.UpdatedAt)</th>
                     <th>Opciones</th>
@@ -41,13 +43,11 @@
                     @foreach (var item in Model)
                     {
                         <tr>
-                            <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Title)</td>
                             <td>@Html.DisplayFor(modelItem => item.Descripcion)</td>
-                            <td class="m-auto">
-                                <div style="width:30px; height:30px; border:1px solid #c0c0c0; border-radius:5px; background-color:@(item.Color);">
-                                </div>
-
-                            </td>
+                            <td>@Html.DisplayFor(modelItem => item.Estado!.Name)</td>
+                            <td>@Html.DisplayFor(modelItem => item.StartDate)</td>
+                            <td>@Html.DisplayFor(modelItem => item.EndDate)</td>
                             <td>@Html.DisplayFor(modelItem => item.CreatedAt)</td>
                             <td>@Html.DisplayFor(modelItem => item.UpdatedAt)</td>
                             <td>
@@ -72,7 +72,7 @@
                 else
                 {
                     <tr>
-                        <td colspan="6">No hay registros</td>
+                        <td colspan="8">No hay registros</td>
                     </tr>
                 }
             </tbody>
@@ -108,7 +108,7 @@
                 const button = $(event.relatedTarget); //que activo el modal
                 const id = button.data('id'); //extraer la data-id
 
-                $("#form-delete").attr('action', '/Estados/Delete/${id}');
+                $("#form-delete").attr('action', '/Eventos/Delete/${id}');
             });
         });
     </script>
