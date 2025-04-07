@@ -132,5 +132,19 @@ namespace PRACT4.Controllers
             TempData["MessageType"] = "success";
             return RedirectToAction("Index");
         }
+        [HttpGet]
+        public async Task<IActionResult> GetEventos()
+        {
+            var eventos = await _context.Eventos.Include(e => e.Estado).Select(e => new
+            {
+                id = e.Id,
+                title = e.Title,
+                start = e.StartDate,
+                end = e.EndDate,
+                description = e.Descripcion,
+                color = e.Estado.Color
+            }).ToListAsync();
+            return Json(eventos);
+        }
     }
 }

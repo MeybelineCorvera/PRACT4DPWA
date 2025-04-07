@@ -51,19 +51,19 @@
                             <td>@Html.DisplayFor(modelItem => item.CreatedAt)</td>
                             <td>@Html.DisplayFor(modelItem => item.UpdatedAt)</td>
                             <td>
-                                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary">
-                                    Editar
+                                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary btn-sm me-1">
+                                    <i class="bi bi-pencil-square"></i> Editar
                                 </a>
-                                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info">
-                                    Detalles
+                                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info btn-sm text-white me-1">
+                                    <i class="bi bi-info-circle"></i> Detalles
                                 </a>
 
                                 <button type="button"
-                                        class="btn btn-danger"
+                                        class="btn btn-danger btn-sm"
                                         data-bs-toggle="modal"
                                         data-bs-target="#deleteModal"
                                         data-ng-hide="@item.Id">
-                                    Eliminar
+                                    <i class="bi bi-trash"></i> Eliminar
                                 </button>
                             </td>
                         </tr>
@@ -108,7 +108,7 @@
                 const button = $(event.relatedTarget); //que activo el modal
                 const id = button.data('id'); //extraer la data-id
 
-                $("#form-delete").attr('action', '/Estados/Delete/${id}');
+                $("#form-delete").attr('action', `/Estados/Delete/${id}`);
             });
         });
     </script>
