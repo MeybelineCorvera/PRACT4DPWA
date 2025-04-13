@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using PRACT4.Data;
 using PRACT4.Models;
 
@@ -7,13 +8,34 @@ namespace PRACT4.Controllers
     public class EstadosController : Controller
     {
         private readonly AgendaDbContext _context;
+        private const int PageSize = 5; //Tamaño de pagina
         public EstadosController(AgendaDbContext context)
         {
             _context = context;
         }
-        public IActionResult Index()
+        public IActionResult Index(string searchString, int page = 1)
         {
-            var listaEstados = _context.Estados.ToList();
+            var query = _context.Estados.AsQueryable();
+
+            //FILTRO DE BUSQUEDA
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                query = query.Where(e => e.Name.Contains(searchString) || e.Descripcion.Contains(searchString));
+            }
+
+            var totalRecords = query.Count();
+            var totalPages = (int)Math.Ceiling((double)totalRecords / PageSize);
+
+            var listaEstados = query
+                .OrderBy(e => e.Id)
+                .Skip((page - 1) * PageSize)
+                .Take(PageSize)
+                .ToList();
+
+            ViewBag.CurrentPage = page;
+            ViewBag.TotalPages = totalPages;
+            ViewBag.SearchString = searchString;
+
             return View(listaEstados);
         }
         public IActionResult Create()
